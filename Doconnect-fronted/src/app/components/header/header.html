@@ -1,0 +1,42 @@
+<nav class="navbar" *ngIf="showHeader">
+  <div class="nav-menu-wrap" (mouseenter)="menuOpen = true" (mouseleave)="menuOpen = false">
+    <div class="navbar-left">
+      <button type="button" class="hamburger" (click)="toggleMenu()" [attr.aria-expanded]="menuOpen" aria-label="Menu">
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+        <span class="hamburger-bar"></span>
+      </button>
+      <a [routerLink]="dashboardLink" class="brand-link">DoConnect</a>
+    </div>
+    <div class="dropdown" *ngIf="menuOpen" [class.open]="menuOpen">
+      <a [routerLink]="dashboardLink" class="dropdown-item" (click)="closeMenu()" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+      <a *ngIf="!isAdmin" routerLink="/ask-question" class="dropdown-item" (click)="closeMenu()" routerLinkActive="active">Ask Question</a>
+      <a *ngIf="!isAdmin" routerLink="/my-questions" class="dropdown-item" (click)="closeMenu()" routerLinkActive="active">My Questions</a>
+      <a *ngIf="!isAdmin" routerLink="/my-answers" class="dropdown-item" (click)="closeMenu()" routerLinkActive="active">My Answers</a>
+      <a *ngIf="isAdmin" routerLink="/admin/questions" class="dropdown-item" (click)="closeMenu()" routerLinkActive="active">Manage Questions</a>
+      <a *ngIf="isAdmin" routerLink="/admin/answers" class="dropdown-item" (click)="closeMenu()" routerLinkActive="active">Manage Answers</a>
+      <a *ngIf="isAdmin" routerLink="/admin/history" class="dropdown-item" (click)="closeMenu()" routerLinkActive="active">History</a>
+    </div>
+  </div>
+
+  <div class="navbar-right">
+    <div class="search-wrap">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search questions..."
+        [(ngModel)]="searchQuery"
+        (keydown.enter)="onSearch()"
+      />
+      <button type="button" class="btn-search" (click)="onSearch()" aria-label="Search">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+      </button>
+    </div>
+    <button type="button" class="btn btn-logout" (click)="logout()">Logout</button>
+  </div>
+</nav>
+
+<div class="dropdown-backdrop" *ngIf="menuOpen" (click)="closeMenu()"></div>

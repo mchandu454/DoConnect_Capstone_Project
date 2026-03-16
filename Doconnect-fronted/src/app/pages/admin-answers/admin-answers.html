@@ -1,0 +1,51 @@
+<div class="dashboard-shell">
+  <div class="dashboard-container">
+  <div class="dashboard-header">
+    <div>
+      <h2 class="page-title">Pending Answers</h2>
+      <p class="page-subtitle">Review and approve, reject, or delete pending answers.</p>
+    </div>
+    <a routerLink="/admin-dashboard" class="btn btn-back">← Back to Dashboard</a>
+  </div>
+
+  <div *ngIf="loading" class="state-message">
+    Loading pending answers...
+  </div>
+
+  <div *ngIf="!loading && answers.length === 0" class="state-message">
+    No pending answers.
+  </div>
+
+  <div *ngIf="!loading && answers.length > 0" class="answers-grid">
+    <div class="answer-card" *ngFor="let a of answers">
+      <div class="answer-image-wrapper" *ngIf="a.imagePath || a.ImagePath">
+        <img
+          class="answer-image"
+          [src]="baseUrl + (a.imagePath || a.ImagePath)"
+          alt="Answer image"
+          loading="lazy"
+          (error)="$event.target.style.display='none'"
+        />
+      </div>
+
+      <div class="answer-content">
+        <p class="answer-text">{{ a.answerText }}</p>
+
+        <div class="answer-meta">
+          <span>By <strong>{{ a.username }}</strong> · Q#{{ a.questionId }}</span>
+          <span class="meta-badge">Pending</span>
+        </div>
+        <p style="font-size: 0.85rem; color: #6b7280; margin: 0;">
+          {{ (a.createdDate || a.CreatedDate) | date:'medium' }}
+        </p>
+
+        <div class="card-actions">
+          <button class="btn btn-approve" (click)="approve(a.answerId)">Approve</button>
+          <button class="btn btn-reject" (click)="reject(a.answerId)">Reject</button>
+          <button class="btn btn-delete" (click)="delete(a.answerId)">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

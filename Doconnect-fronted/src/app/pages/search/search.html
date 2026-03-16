@@ -1,0 +1,43 @@
+<div class="page-shell">
+<div class="search-page">
+  <div class="search-header">
+    <h2 class="page-title">Search</h2>
+    <p class="page-subtitle" *ngIf="query">Results for “{{ query }}” (questions)</p>
+    <p class="page-subtitle" *ngIf="!query">Enter a search term in the navbar to find questions.</p>
+  </div>
+
+  <div *ngIf="loading" class="state-message">Searching...</div>
+  <div *ngIf="!loading && query && questions.length === 0" class="state-message">No questions found for “{{ query }}”.</div>
+
+  <div *ngIf="!loading && questions.length > 0" class="results-info">
+    {{ total }} question{{ total !== 1 ? 's' : '' }} found
+  </div>
+
+  <div *ngIf="!loading && questions.length > 0" class="questions-grid">
+    <div class="question-card" *ngFor="let q of questions">
+      <div class="question-image-wrapper" *ngIf="q.imagePath || q.ImagePath">
+        <img
+          class="question-image"
+          [src]="baseUrl + (q.imagePath || q.ImagePath)"
+          alt="Question image"
+          loading="lazy"
+          (error)="$event.target.style.display='none'"
+        />
+      </div>
+      <div class="question-content">
+        <h3 class="question-title">{{ q.title || q.Title }}</h3>
+        <p class="question-description">{{ q.description || q.Description }}</p>
+        <div class="question-meta">
+          <span>By <strong>{{ q.username || q.Username }}</strong></span>
+          <span class="meta-badge">{{ q.answerCount }} answers</span>
+        </div>
+        <div class="question-actions">
+          <a [routerLink]="['/question-detail', q.questionId || q.QuestionId]">
+            <button class="btn btn-outline">View Details</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

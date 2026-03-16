@@ -1,0 +1,95 @@
+<div class="page-shell">
+<div class="question-detail-container">
+  <div *ngIf="loading" class="state-message">
+    Loading question...
+  </div>
+
+  <div *ngIf="!loading && question" class="question-layout">
+    <div class="question-main">
+      <div class="question-card">
+        <div class="question-header">
+          <h2 class="question-title">{{ question.title }}</h2>
+          <p class="question-meta">
+            Asked by <strong>{{ question.username }}</strong>
+            <span class="meta-sep">•</span>
+            <span class="meta-date">{{ (question.createdDate || question.CreatedDate) | date:'medium' }}</span>
+          </p>
+        </div>
+
+        <div class="question-image-wrapper" *ngIf="question.imagePath || question.ImagePath">
+          <img
+            class="question-image"
+            [src]="baseUrl + (question.imagePath || question.ImagePath)"
+            alt="Question image"
+            loading="lazy"
+            (error)="$event.target.style.display='none'"
+          />
+        </div>
+
+        <p class="question-description">
+          {{ question.description }}
+        </p>
+      </div>
+
+      <div class="answers-section">
+        <div class="section-header">
+          <h3>Answers</h3>
+          <span class="answer-count-badge">{{ answers.length }} total</span>
+        </div>
+
+        <div *ngIf="answers.length === 0" class="state-message subtle">
+          No answers yet. Be the first to help by posting an answer below.
+        </div>
+
+        <div class="answers-list" *ngIf="answers.length > 0">
+          <div class="answer-card" *ngFor="let a of answers">
+            <div class="answer-header">
+              <span class="answer-author">
+                <strong>{{ a.username }}</strong>
+              </span>
+              <span class="answer-date">{{ (a.createdDate || a.CreatedDate) | date:'medium' }}</span>
+            </div>
+
+            <p class="answer-text">
+              {{ a.answerText }}
+            </p>
+
+            <div class="answer-image-wrapper" *ngIf="a.imagePath || a.ImagePath">
+              <img
+                class="answer-image"
+                [src]="baseUrl + (a.imagePath || a.ImagePath)"
+                alt="Answer image"
+                loading="lazy"
+                (error)="$event.target.style.display='none'"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="answer-form-wrapper">
+      <div class="answer-form-card">
+        <h3 class="form-title">Post Answer</h3>
+        <p class="form-subtitle">Share your knowledge to help others.</p>
+
+        <textarea
+          [(ngModel)]="answerText"
+          rows="5"
+          class="form-textarea"
+          placeholder="Write a clear and helpful answer..."
+        ></textarea>
+
+        <div class="form-field">
+          <label class="form-label">Attach image (optional)</label>
+          <input type="file" class="form-file-input" (change)="onFileSelected($event)" />
+        </div>
+
+        <button (click)="submitAnswer()" class="btn btn-primary btn-full">
+          Submit Answer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

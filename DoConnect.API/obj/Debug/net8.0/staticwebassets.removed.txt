@@ -1,0 +1,6 @@
+C:\Users\miriy\source\repos\DoConnect.API\DoConnect.API\wwwroot\uploads\0aad63a3-3370-45a3-983e-37cca7d75f78.png
+C:\Users\miriy\source\repos\DoConnect.API\DoConnect.API\wwwroot\uploads\453c7191-b7a6-4d99-883a-a0bce29d9709.webp
+C:\Users\miriy\source\repos\DoConnect.API\DoConnect.API\wwwroot\uploads\8dc51470-4542-4ad9-a613-debf5eb52285.webp
+C:\Users\miriy\source\repos\DoConnect.API\DoConnect.API\wwwroot\uploads\c8df692c-b970-4bc7-8c68-182235977f29.png
+C:\Users\miriy\source\repos\DoConnect.API\DoConnect.API\wwwroot\uploads\db197f71-7789-4475-b23a-3770df5a85c9.png
+C:\Users\miriy\source\repos\DoConnect.API\DoConnect.API\wwwroot\uploads\df2c021d-b246-4c3a-bf10-4434f6c1c17c.png

@@ -1,0 +1,82 @@
+<div class="dashboard-shell">
+  <div class="dashboard-container">
+  <div class="dashboard-header">
+    <div>
+      <h2 class="page-title">Moderation History</h2>
+      <p class="page-subtitle">View approved, rejected, and deleted questions and answers.</p>
+    </div>
+    <a routerLink="/admin-dashboard" class="btn-back">← Back to Dashboard</a>
+  </div>
+
+  <div *ngIf="loading" class="state-message">
+    Loading moderation history...
+  </div>
+
+  <div *ngIf="!loading">
+    <h3 class="section-title">Questions</h3>
+    <div *ngIf="historyQuestions.length === 0" class="state-message">
+      No question history.
+    </div>
+    <div *ngIf="historyQuestions.length > 0" class="history-grid">
+      <div class="history-card" *ngFor="let q of historyQuestions">
+        <div class="history-image-wrapper" *ngIf="q.imagePath || q.ImagePath">
+          <img
+            class="history-image"
+            [src]="baseUrl + (q.imagePath || q.ImagePath)"
+            alt="Question image"
+            loading="lazy"
+            (error)="$event.target.style.display='none'"
+          />
+        </div>
+        <div class="history-content">
+          <h3 class="history-card-title">{{ q.title }}</h3>
+          <p class="history-card-text">{{ q.description }}</p>
+          <div class="history-meta">
+            <span>By <strong>{{ q.username }}</strong></span>
+            <span class="status-badge" [ngClass]="{
+              'status-approved': (q.status || q.Status) === 'Approved',
+              'status-rejected': (q.status || q.Status) === 'Rejected',
+              'status-deleted': (q.status || q.Status) === 'Deleted'
+            }">{{ q.status || q.Status }}</span>
+          </div>
+          <p style="font-size: 0.85rem; color: #6b7280; margin: 0;">
+            {{ (q.createdDate || q.CreatedDate) | date:'medium' }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="section-title">Answers</h3>
+    <div *ngIf="historyAnswers.length === 0" class="state-message">
+      No answer history.
+    </div>
+    <div *ngIf="historyAnswers.length > 0" class="history-grid">
+      <div class="history-card" *ngFor="let a of historyAnswers">
+        <div class="history-image-wrapper" *ngIf="a.imagePath || a.ImagePath">
+          <img
+            class="history-image"
+            [src]="baseUrl + (a.imagePath || a.ImagePath)"
+            alt="Answer image"
+            loading="lazy"
+            (error)="$event.target.style.display='none'"
+          />
+        </div>
+        <div class="history-content">
+          <p class="history-card-text">{{ a.answerText }}</p>
+          <div class="history-meta">
+            <span>By <strong>{{ a.username }}</strong> · Q#{{ a.questionId }}</span>
+            <span class="status-badge" [ngClass]="{
+              'status-approved': (a.status || a.Status) === 'Approved',
+              'status-rejected': (a.status || a.Status) === 'Rejected',
+              'status-deleted': (a.status || a.Status) === 'Deleted'
+            }">{{ a.status || a.Status }}</span>
+          </div>
+          <p style="font-size: 0.85rem; color: #6b7280; margin: 0;">
+            {{ (a.createdDate || a.CreatedDate) | date:'medium' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

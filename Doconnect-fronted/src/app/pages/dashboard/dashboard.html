@@ -1,0 +1,59 @@
+<div class="dashboard-shell">
+  <div class="dashboard-container">
+  <div class="dashboard-header">
+    <div>
+      <h2 class="page-title">Questions</h2>
+      <p class="page-subtitle">Browse questions, explore answers, and join the discussion.</p>
+    </div>
+    <a routerLink="/ask-question">
+      <button class="btn btn-primary">Ask Question</button>
+    </a>
+  </div>
+
+  <div *ngIf="loading" class="state-message">
+    Loading questions...
+  </div>
+
+  <div *ngIf="!loading && questions.length === 0" class="state-message">
+    No questions available yet. Be the first to ask!
+  </div>
+
+  <div *ngIf="!loading" class="questions-grid">
+    <div class="question-card" *ngFor="let q of questions">
+      <div class="question-image-wrapper" *ngIf="q.imagePath">
+        <img
+          class="question-image"
+          [src]="baseUrl + q.imagePath"
+          alt="Question image"
+          loading="lazy"
+          (error)="$event.target.style.display='none'"
+        />
+      </div>
+
+      <div class="question-content">
+        <h3 class="question-title">{{ q.title }}</h3>
+        <p class="question-description">
+          {{ q.description }}
+        </p>
+
+        <div class="question-meta">
+          <span class="meta-left">
+            Asked by <strong>{{ q.username }}</strong>
+          </span>
+          <span class="meta-right">
+            <span class="meta-date">{{ q.createdDate | date:'medium' }}</span>
+            <span class="meta-dot">•</span>
+            <span class="meta-badge">{{ q.answerCount }} answers</span>
+          </span>
+        </div>
+
+        <div class="question-actions">
+          <a [routerLink]="['/question-detail', q.questionId]">
+            <button class="btn btn-outline">View Details</button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

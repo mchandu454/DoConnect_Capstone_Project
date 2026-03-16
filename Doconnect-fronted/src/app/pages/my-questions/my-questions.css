@@ -1,0 +1,116 @@
+.page-shell {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 2.5rem 1.25rem 3.5rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(79, 70, 229, 0.22), transparent 55%),
+    radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.2), transparent 55%),
+    linear-gradient(135deg, #f9fafb 0%, #eef2ff 40%, #ecfeff 100%);
+}
+
+.page-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.page-title { margin: 0; font-size: 1.8rem; font-weight: 650; color: #111827; }
+.page-subtitle { margin: 0.25rem 0 0; color: #6b7280; font-size: 0.95rem; }
+
+.state-message {
+  padding: 1rem 1.25rem;
+  margin-top: 1rem;
+  border-radius: 0.75rem;
+  background: #f9fafb;
+  border: 1px dashed #e5e7eb;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.questions-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .questions-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.question-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 1rem;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+  overflow: hidden;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.question-card:hover {
+  transform: translateY(-2px);
+  border-color: #d1d5db;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+}
+
+.question-image-wrapper {
+  width: 100%;
+  max-height: 190px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+
+.question-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.question-content { padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.55rem; }
+
+.question-title { margin: 0; font-size: 1.1rem; font-weight: 650; color: #111827; }
+.question-description { margin: 0; font-size: 0.95rem; color: #4b5563; line-height: 1.45; max-height: 3.6em; overflow: hidden; text-overflow: ellipsis; }
+
+.question-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #6b7280; }
+.meta-date { margin-left: auto; }
+.meta-badge { padding: 0.15rem 0.55rem; border-radius: 999px; background: #eef2ff; color: #3730a3; font-weight: 600; }
+.status-badge.status-pending { background: #fef3c7; color: #92400e; }
+.status-badge.status-approved { background: #d1fae5; color: #065f46; }
+.status-badge.status-rejected { background: #fee2e2; color: #991b1b; }
+.status-badge.status-deleted { background: #f3f4f6; color: #6b7280; }
+
+.card-actions { margin-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.btn { border: none; border-radius: 999px; padding: 0.5rem 1rem; font-size: 0.9rem; font-weight: 600; cursor: pointer; text-decoration: none; display: inline-block; transition: background 0.15s, color 0.15s; }
+.btn-back { background: #f3f4f6; color: #374151; }
+.btn-back:hover { background: #e5e7eb; }
+.btn-outline { background: #fff; color: #111827; border: 1px solid #e5e7eb; }
+.btn-outline:hover { border-color: #4f46e5; color: #4f46e5; }
+.btn-primary { background: #4f46e5; color: #fff; }
+.btn-primary:hover:not(:disabled) { background: #4338ca; }
+.btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+.btn-edit { background: #0ea5e9; color: #fff; }
+.btn-edit:hover { background: #0284c7; }
+.btn-delete { background: #dc2626; color: #fff; }
+.btn-delete:hover { background: #b91c1c; }
+
+.edit-form { display: flex; flex-direction: column; gap: 0.75rem; }
+.edit-input, .edit-textarea { width: 100%; padding: 0.5rem 0.75rem; font-size: 0.95rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; font-family: inherit; }
+.edit-input:focus, .edit-textarea:focus { outline: none; border-color: #4f46e5; }
+.file-label { font-size: 0.85rem; font-weight: 600; color: #374151; }
+.file-input { font-size: 0.9rem; }
+.edit-actions { display: flex; gap: 0.5rem; justify-content: flex-end; }

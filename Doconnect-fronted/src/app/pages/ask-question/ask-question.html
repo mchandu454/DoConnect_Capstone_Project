@@ -1,0 +1,60 @@
+<div class="page-shell">
+<div class="ask-page">
+  <div class="ask-header">
+    <div>
+      <h2 class="page-title">Ask a Question</h2>
+      <p class="page-subtitle">Share your question with the community.</p>
+    </div>
+    <a routerLink="/dashboard" class="btn btn-back">← Back to Dashboard</a>
+  </div>
+
+  <div class="form-card">
+    <form (ngSubmit)="submitQuestion()" class="ask-form">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          id="title"
+          type="text"
+          [(ngModel)]="title"
+          name="title"
+          placeholder="Summarize your question in a few words"
+          required
+          maxlength="300"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          [(ngModel)]="description"
+          name="description"
+          rows="6"
+          placeholder="Provide details so others can help you."
+          required
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="image">Image (optional)</label>
+        <div class="file-wrap">
+          <input
+            id="image"
+            type="file"
+            accept="image/*"
+            (change)="onFileSelected($event)"
+            class="file-input"
+          />
+          <span class="file-label">{{ imageFile ? imageFile.name : 'Choose an image' }}</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="submitting">
+          {{ submitting ? 'Submitting...' : 'Submit Question' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+</div>

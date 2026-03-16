@@ -1,0 +1,61 @@
+<div class="page-shell">
+<div class="page-container">
+  <div class="dashboard-header">
+    <div>
+      <h2 class="page-title">My Questions</h2>
+      <p class="page-subtitle">View and manage the questions you've asked.</p>
+    </div>
+    <a routerLink="/dashboard" class="btn btn-back">← Dashboard</a>
+  </div>
+
+  <div *ngIf="loading" class="state-message">Loading...</div>
+  <div *ngIf="!loading && questions.length === 0" class="state-message">You haven't asked any questions yet.</div>
+
+  <div *ngIf="!loading && questions.length > 0" class="questions-grid">
+    <div class="question-card" *ngFor="let q of questions">
+      <div class="question-image-wrapper" *ngIf="(q.imagePath || q.ImagePath) && editingId !== (q.questionId || q.QuestionId)">
+        <img
+          class="question-image"
+          [src]="baseUrl + (q.imagePath || q.ImagePath)"
+          alt="Question"
+          loading="lazy"
+          (error)="$event.target.style.display='none'"
+        />
+      </div>
+
+      <div class="question-content">
+        <ng-container *ngIf="editingId === (q.questionId || q.QuestionId); else viewMode">
+          <div class="edit-form">
+            <input type="text" [(ngModel)]="editTitle" placeholder="Title" class="edit-input" />
+            <textarea [(ngModel)]="editDescription" placeholder="Description" rows="4" class="edit-textarea"></textarea>
+            <label class="file-label">New image (optional)</label>
+            <input type="file" accept="image/*" (change)="onEditImage($event)" class="file-input" />
+            <div class="edit-actions">
+              <button type="button" class="btn btn-outline" (click)="cancelEdit()">Cancel</button>
+              <button type="button" class="btn btn-primary" (click)="updateQuestion()" [disabled]="submitting">
+                {{ submitting ? 'Saving...' : 'Update' }}
+              </button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #viewMode>
+          <h3 class="question-title">{{ q.title || q.Title }}</h3>
+          <p class="question-description">{{ q.description || q.Description }}</p>
+          <div class="question-meta">
+            <span class="meta-badge status-badge" [ngClass]="'status-' + (q.status || q.Status || '').toLowerCase()">{{ q.status || q.Status }}</span>
+            <span class="meta-date">{{ (q.createdDate || q.CreatedDate) | date:'medium' }}</span>
+          </div>
+          <div class="question-meta">
+            <span>{{ q.answerCount }} answers</span>
+          </div>
+          <div class="card-actions">
+            <a [routerLink]="['/question-detail', q.questionId || q.QuestionId]"><button class="btn btn-outline">View</button></a>
+            <button type="button" class="btn btn-edit" (click)="startEdit(q)">Edit</button>
+            <button type="button" class="btn btn-delete" (click)="deleteQuestion(q)">Delete</button>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
