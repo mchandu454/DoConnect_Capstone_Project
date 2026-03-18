@@ -281,3 +281,4 @@ C:\Users\miriy\Downloads\Capstone Project\DoConnect.API\obj\Debug\net8.0\refint\
 C:\Users\miriy\Downloads\Capstone Project\DoConnect.API\obj\Debug\net8.0\DoConnect.API.pdb
 C:\Users\miriy\Downloads\Capstone Project\DoConnect.API\obj\Debug\net8.0\DoConnect.API.genruntimeconfig.cache
 C:\Users\miriy\Downloads\Capstone Project\DoConnect.API\obj\Debug\net8.0\ref\DoConnect.API.dll
+C:\Users\miriy\Downloads\Capstone Project\DoConnect.API\obj\Debug\net8.0\DoConnect.API.sourcelink.json
