@@ -159,3 +159,4 @@ C:\Users\miriy\Downloads\Capstone Project\DoConnect.API.Tests\obj\Debug\net10.0\
 C:\Users\miriy\Downloads\Capstone Project\DoConnect.API.Tests\obj\Debug\net10.0\DoConnect.API.Tests.pdb
 C:\Users\miriy\Downloads\Capstone Project\DoConnect.API.Tests\obj\Debug\net10.0\DoConnect.API.Tests.genruntimeconfig.cache
 C:\Users\miriy\Downloads\Capstone Project\DoConnect.API.Tests\obj\Debug\net10.0\ref\DoConnect.API.Tests.dll
+C:\Users\miriy\Downloads\Capstone Project\DoConnect.API.Tests\obj\Debug\net10.0\DoConnect.API.Tests.sourcelink.json

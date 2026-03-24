@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DoConnect.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6803f87c0e3e9a5e17132dc2106391b6972b4a00")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e4d72c915829abe853d0f1022229a25c15def82")]
 [assembly: System.Reflection.AssemblyProductAttribute("DoConnect.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DoConnect.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,8 +1,11 @@
+using System.Threading;
 using DoConnect.API.DTOs;
 using DoConnect.API.Models;
+using DoConnect.API.Hubs;
 using DoConnect.API.Repositories;
 using DoConnect.API.Services;
 using Moq;
+using Microsoft.AspNetCore.SignalR;
 
 namespace DoConnect.API.Tests;
 
@@ -12,6 +15,18 @@ public class QuestionServiceTests
     public async Task CreateAsync_WithImagePath_AddsImageAndReturnsDto()
     {
         var repo = new Mock<IQuestionRepository>(MockBehavior.Strict);
+        var hubContext = new Mock<IHubContext<NotificationsHub>>(MockBehavior.Strict);
+        var hubClients = new Mock<IHubClients>(MockBehavior.Strict);
+        var groupProxy = new Mock<IClientProxy>(MockBehavior.Strict);
+
+        hubContext.Setup(h => h.Clients).Returns(hubClients.Object);
+        hubClients.Setup(c => c.Group(NotificationsHub.AdminGroup)).Returns(groupProxy.Object);
+        groupProxy
+            .Setup(p => p.SendCoreAsync(
+                "ReceiveNotification",
+                It.IsAny<object?[]>(),
+                It.IsAny<CancellationToken>()))
+            .Returns(Task.CompletedTask);
 
         repo.Setup(r => r.CreateAsync(It.IsAny<Question>()))
             .ReturnsAsync((Question q) =>
@@ -34,7 +49,7 @@ public class QuestionServiceTests
                 Images = new List<Image> { new() { ImagePath = "/uploads/x.png" } }
             });
 
-        var svc = new QuestionService(repo.Object);
+        var svc = new QuestionService(repo.Object, hubContext.Object);
 
         var dto = await svc.CreateAsync(
             new CreateQuestionDto { Title = "t", Description = "d" },
@@ -67,6 +82,7 @@ public class QuestionServiceTests
     public async Task UpdateOwnAsync_WhenNotOwner_ReturnsNull()
     {
         var repo = new Mock<IQuestionRepository>(MockBehavior.Strict);
+        var hubContext = new Mock<IHubContext<NotificationsHub>>(MockBehavior.Strict);
         repo.Setup(r => r.GetByIdAsync(10)).ReturnsAsync(new Question
         {
             QuestionId = 10,
@@ -77,7 +93,7 @@ public class QuestionServiceTests
             CreatedDate = DateTime.UtcNow
         });
 
-        var svc = new QuestionService(repo.Object);
+        var svc = new QuestionService(repo.Object, hubContext.Object);
 
         var updated = await svc.UpdateOwnAsync(
             questionId: 10,
@@ -94,6 +110,7 @@ public class QuestionServiceTests
     public async Task DeleteOwnAsync_WhenNotOwner_ReturnsFalse()
     {
         var repo = new Mock<IQuestionRepository>(MockBehavior.Strict);
+        var hubContext = new Mock<IHubContext<NotificationsHub>>(MockBehavior.Strict);
         repo.Setup(r => r.GetByIdAsync(10)).ReturnsAsync(new Question
         {
             QuestionId = 10,
@@ -104,7 +121,7 @@ public class QuestionServiceTests
             CreatedDate = DateTime.UtcNow
         });
 
-        var svc = new QuestionService(repo.Object);
+        var svc = new QuestionService(repo.Object, hubContext.Object);
 
         var ok = await svc.DeleteOwnAsync(questionId: 10, userId: 111);
 

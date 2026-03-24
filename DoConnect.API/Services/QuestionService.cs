@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 using DoConnect.API.DTOs;
+using DoConnect.API.Hubs;
 using DoConnect.API.Models;
 using DoConnect.API.Repositories;
 
@@ -23,10 +25,12 @@ namespace DoConnect.API.Services
     public class QuestionService : IQuestionService
     {
         private readonly IQuestionRepository _questionRepo;
+        private readonly IHubContext<NotificationsHub> _hubContext;
 
-        public QuestionService(IQuestionRepository questionRepo)
+        public QuestionService(IQuestionRepository questionRepo, IHubContext<NotificationsHub> hubContext)
         {
             _questionRepo = questionRepo;
+            _hubContext = hubContext;
         }
 
         public async Task<QuestionResponseDto> CreateAsync(CreateQuestionDto dto, int userId, string? imagePath)
@@ -51,6 +55,33 @@ namespace DoConnect.API.Services
             await _questionRepo.CreateAsync(question);
 
             var created = await _questionRepo.GetByIdAsync(question.QuestionId);
+
+            if (created != null)
+            {
+                var notification = new NotificationDto
+                {
+                    Id = $"question-{created.QuestionId}",
+                    Message = $"New question posted: {created.Title} by {created.User?.Username}",
+                    Type = "question",
+                    Timestamp = created.CreatedDate,
+                    Read = false
+                };
+
+                try
+                {
+                    NotificationsHub.AddRecent(notification);
+                    await _hubContext.Clients.Group(NotificationsHub.AdminGroup)
+                        .SendAsync("ReceiveNotification", notification);
+
+                    Console.WriteLine($"[SignalR] Sent question notification. Id={notification.Id}, Group={NotificationsHub.AdminGroup}");
+                    Console.WriteLine($"[SignalR] ConnectedAdminsCount={NotificationsHub.ConnectedAdmins.Count}");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"[SignalR] Failed to send question notification. Error: {ex.Message}");
+                }
+            }
+
             return MapToDto(created);
         }
 
